@@ -1,24 +1,23 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react';
+import { Router } from "@reach/router"
 
-function App() {
+import Quote from './Quote/Quote';
+import Ratings from './Ratings/Ratings';
+
+import styles from './App.module.css';
+
+const App = () => {
+  const [quote, setQuote] = useState({});
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+    <div className={styles.app}>
+      <header className={styles.header}>
+          Rocket Insurance
       </header>
+      <Router>
+        <Quote path="quote" setQuote={setQuote} default />
+        <Ratings path="ratings" quote={quote} />
+      </Router>
     </div>
   );
 }
