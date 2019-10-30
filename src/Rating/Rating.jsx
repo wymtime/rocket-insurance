@@ -6,7 +6,7 @@ import {
   Button, Container, Grid, Paper, Typography,
 } from '@material-ui/core';
 
-import { Input } from '../Reusables';
+import { TextInput } from '../Reusables';
 import { isEmpty, isValidPostal, snakeCaseRating } from './utils';
 
 import useValidation from './useValidation';
@@ -83,7 +83,7 @@ const Rating = ({
         <br />
         <Grid container spacing={3}>
           <Grid item xs={12} sm={6}>
-            <Input
+            <TextInput
               label="First Name"
               onChange={handleNameChange('firstName')}
               required
@@ -93,7 +93,7 @@ const Rating = ({
             />
           </Grid>
           <Grid item xs={12} sm={6}>
-            <Input
+            <TextInput
               label="Last Name"
               onChange={handleNameChange('lastName')}
               required
@@ -102,7 +102,7 @@ const Rating = ({
             />
           </Grid>
           <Grid item xs={12} sm={6}>
-            <Input
+            <TextInput
               label="Address Line 1"
               onChange={handleAddressChange('line1')}
               required
@@ -111,7 +111,7 @@ const Rating = ({
             />
           </Grid>
           <Grid item xs={12} sm={6}>
-            <Input
+            <TextInput
               label="Address Line 2"
               onChange={handleAddressChange('line2')}
               value={line2}
@@ -119,7 +119,7 @@ const Rating = ({
             />
           </Grid>
           <Grid item xs={12} sm={6}>
-            <Input
+            <TextInput
               label="City"
               onChange={handleAddressChange('city')}
               required
@@ -128,7 +128,7 @@ const Rating = ({
             />
           </Grid>
           <Grid item xs={12} sm={6}>
-            <Input
+            <TextInput
               label="Region"
               onChange={handleAddressChange('region')}
               required
@@ -137,7 +137,7 @@ const Rating = ({
             />
           </Grid>
           <Grid item xs={12} sm={6}>
-            <Input
+            <TextInput
               label="Postal Code"
               onChange={handleAddressChange('postal')}
               required

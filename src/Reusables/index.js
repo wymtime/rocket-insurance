@@ -1,11 +1,11 @@
 import ConditionalRoute from './ConditionalRoute/ConditionalRoute';
-import Input from './Input/Input';
+import TextInput from './TextInput/TextInput';
 import Select from './Select/Select';
 import useForm from './useForm';
 
 export {
   ConditionalRoute,
-  Input,
+  TextInput,
   Select,
   useForm,
 };

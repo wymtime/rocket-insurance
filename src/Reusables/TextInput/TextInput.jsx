@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import { TextField } from '@material-ui/core';
 
-const Input = ({
+const TextInput = ({
   label,
   defaultValue,
   value,
@@ -23,7 +23,7 @@ const Input = ({
   />
 );
 
-Input.defaultProps = {
+TextInput.defaultProps = {
   defaultValue: '',
   error: '',
   onChange: () => {},
@@ -31,7 +31,7 @@ Input.defaultProps = {
   value: '',
 };
 
-Input.propTypes = {
+TextInput.propTypes = {
   defaultValue: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.number,
@@ -46,4 +46,4 @@ Input.propTypes = {
   ]),
 };
 
-export default Input;
+export default TextInput;

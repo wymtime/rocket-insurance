@@ -79,7 +79,7 @@ test('renders the Rating title', () => {
   expect(getByText('Rating')).toBeInTheDocument();
 });
 
-test('renders all Inputs', () => {
+test('renders all TextInputs', () => {
   const { getByText } = renderRating();
   expect(getByText('First Name')).toBeInTheDocument();
   expect(getByText('Last Name')).toBeInTheDocument();
@@ -90,50 +90,50 @@ test('renders all Inputs', () => {
   expect(getByText('Postal Code')).toBeInTheDocument();
 });
 
-test('renders all Inputs with values correct values when props are provided', () => {
+test('renders all TextInputs with values correct values when props are provided', () => {
   const { container } = renderRating();
 
-  const firstNameInput = getByTitle(container, 'First Name');
-  expect(firstNameInput.value).toEqual('Prairie');
+  const firstNameTextInput = getByTitle(container, 'First Name');
+  expect(firstNameTextInput.value).toEqual('Prairie');
 
-  const lastNameInput = getByTitle(container, 'Last Name');
-  expect(lastNameInput.value).toEqual('Johnson');
+  const lastNameTextInput = getByTitle(container, 'Last Name');
+  expect(lastNameTextInput.value).toEqual('Johnson');
 
-  const addressLine1Input = getByTitle(container, 'Address Line 1');
-  expect(addressLine1Input.value).toEqual('123 Mulberry Lane')
+  const addressLine1TextInput = getByTitle(container, 'Address Line 1');
+  expect(addressLine1TextInput.value).toEqual('123 Mulberry Lane')
 
-  const addressLine2Input = getByTitle(container, 'Address Line 2');
-  expect(addressLine2Input.value).toEqual('3B');
+  const addressLine2TextInput = getByTitle(container, 'Address Line 2');
+  expect(addressLine2TextInput.value).toEqual('3B');
 
-  const cityInput = getByTitle(container, 'City');
-  expect(cityInput.value).toEqual('Brooklyn');
+  const cityTextInput = getByTitle(container, 'City');
+  expect(cityTextInput.value).toEqual('Brooklyn');
 
-  const regionInput = getByTitle(container, 'Region');
-  expect(regionInput.value).toEqual('NY');
+  const regionTextInput = getByTitle(container, 'Region');
+  expect(regionTextInput.value).toEqual('NY');
 
-  const postalInput = getByTitle(container, 'Postal Code');
-  expect(postalInput.value).toEqual('11211');
+  const postalTextInput = getByTitle(container, 'Postal Code');
+  expect(postalTextInput.value).toEqual('11211');
 });
 
 test('calls updateName when onChange name input is changed', () => {
   const { container } = renderRating();
 
-  const firstNameInput = getByTitle(container, 'First Name');
+  const firstNameTextInput = getByTitle(container, 'First Name');
 
-  fireEvent.change(firstNameInput, { target: { value: '' } });
+  fireEvent.change(firstNameTextInput, { target: { value: '' } });
   expect(ratingProps.updateName).toHaveBeenCalledTimes(1)
 });
 
 test('calls updateAddress when onChange address input is changed', () => {
   const { container } = renderRating();
 
-  const cityInput = getByTitle(container, 'City');
+  const cityTextInput = getByTitle(container, 'City');
 
-  fireEvent.change(cityInput, { target: { value: 'Los Angeles' } });
+  fireEvent.change(cityTextInput, { target: { value: 'Los Angeles' } });
   expect(ratingProps.updateAddress).toHaveBeenCalledTimes(1)
 });
 
-test('displays no error messages if required Inputs are filled and submit button is clicked', () => {
+test('displays no error messages if required TextInputs are filled and submit button is clicked', () => {
   const { container } = renderRating();
   expect(queryByText(container, 'Cannot be empty')).not.toBeInTheDocument();
 });

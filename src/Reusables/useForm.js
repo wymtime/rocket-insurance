@@ -34,7 +34,7 @@ const useForm = (defaultState, updateCallback) => {
   };
 
   // const handleSubmit = data => () => {
-  //   validateInputs();
+  //   validateTextInputs();
   //   if (Object.keys(errors).length === 0) submitCallback(data);
   // }
 
