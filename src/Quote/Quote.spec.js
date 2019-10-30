@@ -54,6 +54,22 @@ function renderQuote() {
   return utils;
 }
 
+test('should render a Name', () => {
+  const { getByText } = renderQuote();
+  expect(getByText('Prairie Prairie')).toBeInTheDocument();
+});
+
+test('should render an Address', () => {
+  const { getByText } = renderQuote();
+  expect(getByText('123 Mulberry Lane 3B')).toBeInTheDocument();
+  expect(getByText('Brooklyn, NY, 11211')).toBeInTheDocument();
+});
+
+test('should render a Premium', () => {
+  const { getByText } = renderQuote();
+  expect(getByText('$6000')).toBeInTheDocument();
+});
+
 test('should render a Deductible Select component', () => {
   const { getByText } = renderQuote();
   expect(getByText('Deductible')).toBeInTheDocument();
@@ -64,12 +80,5 @@ test('should render a Asteroid Collision Limit Select component', () => {
   const { getByText } = renderQuote();
   expect(getByText('Asteroid Collision Limit')).toBeInTheDocument();
   expect(getByText('The maximum amount covered for damages caused by asteroid collisions.')).toBeInTheDocument();
-});
-
-test('should render options for each deductible option', () => {
-  const { getByText } = renderQuote();
-  expect(getByText('$500')).toBeInTheDocument();
-  // expect(getByText('$1000')).toBeInTheDocument();
-  // expect(getByText('$2000')).toBeInTheDocument();
 });
 

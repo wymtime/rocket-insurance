@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, getByTitle, queryByText, fireEvent } from '@testing-library/react';
+import { render } from '@testing-library/react';
 
 import Select from './Select';
 
@@ -22,9 +22,3 @@ test('it renders Select component', () => {
   const { getByText } = renderSelect();
   expect(getByText('Select')).toBeInTheDocument();
 });
-
-// test('it renders 3 options', async () => {
-//   const { findByText } = renderSelect();
-//   const items = await findByText(/Item/);
-//   expect(items).toHaveLength(3);
-// });

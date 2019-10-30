@@ -6,7 +6,7 @@ import {
 } from '@material-ui/core';
 
 import { Select } from '../Reusables';
-import InfoBlock from './InfoBlock';
+import InfoBlock from './Components/InfoBlock';
 
 import styles from './Quote.module.css';
 
@@ -115,6 +115,7 @@ Quote.defaultProps = {
       deductible: 0,
       asteroid_collision: 0,
     },
+    premium: 0,
   },
 };
 
@@ -147,6 +148,7 @@ Quote.propTypes = {
       deductible: PropTypes.number,
       asteroid_collision: PropTypes.number,
     }),
+    premium: PropTypes.number,
   }),
 };
 
