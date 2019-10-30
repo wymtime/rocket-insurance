@@ -1,0 +1,4 @@
+src/serviceWorker.js
+src/index.js
+src/App.js
+**/*.spec.js

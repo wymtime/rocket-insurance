@@ -1,48 +1,47 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 
-const useForm = (defaultState, submitCallback) => {
+const useForm = (defaultState, updateCallback) => {
   const [values, setValues] = useState(defaultState);
   const [errors, setErrors] = useState({});
-  const [isSubmitting, setSubmitting] = useState(false);
 
-  const handleChange = name => event => {
+  const handleChange = (name) => (event) => {
     const input = values[name];
+    const { value } = event.target;
+
     setValues({
       ...values,
-      [name]: { ...input, value: event.target.value },
+      [name]: { ...input, value },
     });
+
+    if (updateCallback) updateCallback(name, value);
   };
 
-  const validateInputs = () => {
-    const errors = {};
+  const validateValues = () => {
+    const currentErrors = {};
 
-    Object.keys(values).forEach(name => {
+    Object.keys(values).forEach((name) => {
       const input = values[name];
       const { value, validators } = input;
 
       const error = validators
-        .map(validator => validator(value))
-        .find(err =>  err !== '');
-      
-      if (error) errors[name] = error;
+        .map((validator) => validator(value))
+        .find((err) => err !== '');
+
+      if (error) currentErrors[name] = error;
     });
 
-    setErrors(errors)
+    setErrors(currentErrors);
   };
 
-  const handleSubmit = data => {
-    validateInputs();
-    setSubmitting(true);
-  }
+  // const handleSubmit = data => () => {
+  //   validateInputs();
+  //   if (Object.keys(errors).length === 0) submitCallback(data);
+  // }
 
-  useEffect(() => {
-    if (Object.keys(errors).length === 0 && isSubmitting) {
-      submitCallback();
-    }
-    setSubmitting(false);
-  }, [errors, isSubmitting]);
+  // useEffect(() => {
+  // }, [errors, isSubmitting]);
 
-  return { values, errors, handleChange, handleSubmit };
+  return [values, errors, handleChange, validateValues];
 };
 
 export default useForm;

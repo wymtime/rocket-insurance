@@ -1,161 +1,153 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { navigate } from "@reach/router"
-import axios from 'axios';
 
-import Button from '@material-ui/core/Button';
-import Container from '@material-ui/core/Container';
-import Grid from '@material-ui/core/Grid';
-import TextField from '@material-ui/core/TextField';
-import Typography from '@material-ui/core/Typography';
+import {
+  Container, Divider, Grid, Paper, Typography,
+} from '@material-ui/core';
 
-import { isEmpty, isValidPostal } from './validators';
-import { useForm } from '../Reusables';
+import { Select } from '../Reusables';
+import InfoBlock from './InfoBlock';
 
 import styles from './Quote.module.css';
 
-const Quote = ({ setQuote }) => {
-  const defaultState = {
-    firstName: { value: '', validators: [isEmpty] },
-    lastName: { value: '', validators: [isEmpty] },
-    line1: { value: '', validators: [isEmpty] },
-    line2: { value: '', validators: [] },
-    city: { value: '', validators: [isEmpty] },
-    region: { value: '', validators: [isEmpty, isValidPostal] },
-    postal: { value: '', validators: [isEmpty] },
-  };
-
-  const handleQuoteSubmission = async (data) => {
-    try {
-      const { quote } = await axios
-        .post('https://fed-challenge-api.sure.now.sh/api/v1/quotes', data);
-
-      setQuote(quote);
-      navigate('/ratings');
-    } catch (err) {
-
-    }
-  }
-
+const Quote = ({ quote }) => {
   const {
-    values, errors, handleChange, handleSubmit,
-  } = useForm(defaultState, handleQuoteSubmission);
-
-  const {
-    firstName, lastName, line1, line2,
-    city, region, postal,
-  } = values;
-
-  const quoteData = {
-    first_name: firstName,
-    last_name: lastName,
-    address: {
+    policy_holder: {
+      first_name: firstName,
+      last_name: lastName,
+    },
+    rating_address: {
       line_1: line1,
       line_2: line2,
       city,
       region,
       postal,
-    }
+    },
+    variable_options: {
+      deductible: deductibleOptions,
+      asteroid_collision: asteroidCollsionOptions,
+    },
+    variable_selections: {
+      deductible: deductibleSelection,
+      asteroid_collision: asteroidCollsionSelection,
+    },
+    premium,
+  } = quote;
+
+  const [values, setValues] = useState({
+    deductible: deductibleSelection,
+    asteroidCollision: asteroidCollsionSelection,
+  });
+
+  const handleChange = (name) => (event) => {
+    const { value } = event.target;
+    setValues({
+      ...values,
+      [name]: value,
+    });
   };
+
+  const { asteroidCollision, deductible } = values;
+
+  const currencyFormatter = (value) => `$${value}`;
 
   return (
     <Container maxWidth="sm">
-      <Typography variant="h6" gutterBottom>
-        Quote
-      </Typography>
-      <Grid container spacing={3}>
-        <Grid item xs={12} sm={6}>
-          <TextField
-            label="First Name"
-            onChange={handleChange('firstName')}
-            required
-            value={firstName.value}
-            helperText={firstName.error}
-            error={!!firstName.error}
-            variant="outlined"
-          />
+      <Paper className={styles.paper}>
+        <Typography variant="h5" gutterBottom>
+          Quote
+        </Typography>
+        <br />
+        <Grid container spacing={6}>
+          <Grid item xs={12} sm={12}>
+            <Divider light />
+            <InfoBlock
+              title="Name"
+              lines={[`${firstName} ${lastName}`]}
+            />
+            <InfoBlock
+              title="Address"
+              lines={[`${line1} ${line2}`, `${city}, ${region}, ${postal}`]}
+            />
+            <InfoBlock
+              title="Premium"
+              lines={[`$${premium}`]}
+            />
+            <Divider light />
+          </Grid>
+          <Grid item xs={6} sm={6}>
+            <Select
+              title={deductibleOptions.title}
+              values={deductibleOptions.values}
+              helperText={deductibleOptions.description}
+              selection={deductible}
+              valueFormatter={currencyFormatter}
+              onChange={handleChange('deductible')}
+            />
+          </Grid>
+          <Grid item xs={6} sm={6}>
+            <Select
+              title={asteroidCollsionOptions.title}
+              values={asteroidCollsionOptions.values}
+              helperText={asteroidCollsionOptions.description}
+              selection={asteroidCollision}
+              valueFormatter={currencyFormatter}
+              onChange={handleChange('asteroidCollision')}
+            />
+          </Grid>
         </Grid>
-        <Grid item xs={12} sm={6}>
-          <TextField
-            label="Last Name"
-            onChange={handleChange('lastName')}
-            required
-            value={lastName.value}
-            helperText={errors.lastName}
-            error={!!errors.lastName}
-            variant="outlined"
-          />
-        </Grid>
-        <Grid item xs={12} sm={6}>
-          <TextField
-            label="Address Line 1"
-            onChange={handleChange('line1')}
-            required
-            value={line1.value}
-            helperText={errors.line1}
-            error={!!errors.line1}
-            variant="outlined"
-          />
-        </Grid>
-        <Grid item xs={12} sm={6}>
-          <TextField
-            label="Address Line 2"
-            onChange={handleChange('line2')}
-            value={line2.value}
-            helperText={errors.line2}
-            error={!!errors.line2}
-            variant="outlined"
-          />
-        </Grid>
-        <Grid item xs={12} sm={6}>
-          <TextField
-            label="City"
-            onChange={handleChange('city')}
-            required
-            value={city.value}
-            helperText={errors.city}
-            error={!!errors.city}
-            variant="outlined"
-          />
-        </Grid>
-        <Grid item xs={12} sm={6}>
-          <TextField
-            label="Region"
-            onChange={handleChange('region')}
-            required
-            value={region.value}
-            helperText={errors.region}
-            error={!!errors.region}
-            variant="outlined"
-          />
-        </Grid>
-        <Grid item xs={12} sm={6}>
-          <TextField
-            label="Postal Code"
-            onChange={handleChange('postal')}
-            required
-            value={postal.value}
-            helperText={errors.postal}
-            error={!!errors.postal}
-            variant="outlined"
-          />
-        </Grid>
-        <Grid item xs={12} sm={12}>
-          <Button
-            color="primary"
-            onClick={() => handleSubmit(quoteData)}
-            size="large"
-            variant="contained">
-              Submit
-          </Button>
-      </Grid>
-      </Grid>
+      </Paper>
     </Container>
   );
-}
+};
+
+Quote.defaultProps = {
+  quote: {
+    policy_holder: {
+      first_name: '',
+      last_name: '',
+    },
+    variable_options: {
+      deductible: {},
+      asteroid_collision: {},
+    },
+    variable_selections: {
+      deductible: 0,
+      asteroid_collision: 0,
+    },
+  },
+};
 
 Quote.propTypes = {
-  setQuote: PropTypes.func.isRequired,
+  quote: PropTypes.shape({
+    policy_holder: PropTypes.shape({
+      first_name: PropTypes.string,
+      last_name: PropTypes.string,
+    }),
+    rating_address: PropTypes.shape({
+      line_1: PropTypes.string.isRequired,
+      line_2: PropTypes.string.isRequired,
+      city: PropTypes.string.isRequired,
+      region: PropTypes.string.isRequired,
+      postal: PropTypes.string.isRequired,
+    }),
+    variable_options: PropTypes.shape({
+      deductible: PropTypes.shape({
+        title: PropTypes.string,
+        description: PropTypes.string,
+        values: PropTypes.array,
+      }),
+      asteroid_collision: PropTypes.shape({
+        title: PropTypes.string,
+        description: PropTypes.string,
+        values: PropTypes.array,
+      }),
+    }),
+    variable_selections: PropTypes.shape({
+      deductible: PropTypes.number,
+      asteroid_collision: PropTypes.number,
+    }),
+  }),
 };
 
 export default Quote;
